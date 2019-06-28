@@ -35,6 +35,11 @@ app.get('/hello', (req, res) => {
     res.render('hello', { prompt: `Who is buried in Grant's tomb?`,  colors, friends });
 });
 
+app.get('/test', (req, res) => {
+    //res.locals.prompt = `Who is buried in Grant's tomb?`;
+    res.render('test', { prompt: `Who is buried in Grant's tomb?`,  colors, friends });
+});
+
 app.listen(3000, ()=>{
     console.log(`the application is running locally on localhost:3000`);
 });
