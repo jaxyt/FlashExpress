@@ -17,6 +17,26 @@ html(lang="en")
                         a(href="#") Products
                     li
                         a(href="#") Contact
+                    li
+                        a(href="http://localhost:3000/cards") Cards
+        section#content
+            ul
+                each color in colors
+                    li= color
+            h2= prompt
+            if hint
+                p
+                    i Hint: #{hint}
+            else
+                p (There is no hint)
         #main
-            p Coo with rabbits ect. bull bowels cat chicken cow, calf donkey duck. Mouse soybeans sweet corn hogs llamas or oink oink wind. Grapes at yams mushrooms organic berries gobble. Gourds utters at welding equipment a oink oink haybine. Ewes fox. Petting zoo bulls, Ducks in cabbage on, cauliflower irrigation Seeder onion. Outhouse at nails mower. Killer scourge scared, drowning helpless sheep at, farmers market and cultivator ostrich.
-            
+            table
+                tr
+                    th First Name
+                    th Last Name
+                each friend in friends
+                    tr
+                        td= friend.first
+                        td= friend.last
+        footer
+            p An app to help you study
