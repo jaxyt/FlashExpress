@@ -1,6 +1,10 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const colors = [
     'red',
@@ -31,8 +35,12 @@ app.get('/cards', (req, res) => {
 
 
 app.get('/hello', (req, res) => {
-    //res.locals.prompt = `Who is buried in Grant's tomb?`;
-    res.render('hello', { prompt: `Who is buried in Grant's tomb?`,  colors, friends });
+    res.render('hello');
+});
+
+app.post('/hello', (req, res) => {
+    res.cookie('username', req.body.username);
+    res.render('hello', { name: req.body.username })
 });
 
 app.get('/test', (req, res) => {
