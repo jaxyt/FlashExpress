@@ -6,63 +6,30 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/static', express.static('./public'));
 
-const colors = [
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'blue',
-    'purple'
-  ];
-
-const friends = [
-    {first: 'blake', last: 'ross'},
-    {first: 'nick', last: 'klein'},
-    {first: 'mark', last: 'wickard'},
-    {first: 'casey', last: 'schneider'},
-    {first: 'sean', last: 'smalley'}
-]
 
 app.set('view engine', 'pug');
 
-app.get('/', (req, res) => {
-    const name = req.cookies.username;
-    if (name) {
-        res.render('index', {name});
-    } else {
-        res.redirect('/hello')
-    }
+const mainRoutes = require('./routes');
+const cardRoutes = require('./routes/cards');
+
+app.use(mainRoutes);
+app.use('/cards', cardRoutes);
+
+app.use((req, res, next)=>{
+    const err = new Error('oh noes!');
+    err.status = 404;
+    next(err);
 });
 
-app.post('/goodbye', (req, res)=>{
-    res.clearCookie('username', req.body.username);
-    res.redirect('/hello');
-});
-
-app.get('/cards', (req, res) => {
-    res.render('card', { prompt: `Who is buried in Grant's tomb?` });
+app.use((err, req, res, next)=>{
+    res.locals.error = err;
+    res.status(err.status);
+    res.render('error');
 });
 
 
-app.get('/hello', (req, res) => {
-    const name = req.cookies.username;
-    if (name) {
-        res.redirect('/');
-    } else {
-        res.render('hello');
-    }
-});
-
-app.post('/hello', (req, res) => {
-    res.cookie('username', req.body.username);
-    res.redirect('/')
-});
-
-app.get('/test', (req, res) => {
-    //res.locals.prompt = `Who is buried in Grant's tomb?`;
-    res.render('test', { prompt: `Who is buried in Grant's tomb?`,  colors, friends });
-});
 
 app.listen(3000, ()=>{
     console.log(`the application is running locally on localhost:3000`);

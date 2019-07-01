@@ -4,8 +4,15 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet" href="/static/stylesheets/style.css")
         title Flash Cards
     body
         include includes/header.pug
+        if name
+            h2 Welcome, #{name}!
+            form(action="/goodbye" method="post")
+                button(type="submit") Goodbye
+            br
         block content
+        
         include includes/footer.pug
